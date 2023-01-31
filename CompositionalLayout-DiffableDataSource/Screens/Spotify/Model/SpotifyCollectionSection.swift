@@ -1,18 +1,11 @@
 //
-//  Sections.swift
-//  DataSource
+//  SpotifyCollectionSection.swift
+//  CompositionalLayout-DiffableDataSource
 //
-//  Created by Bartosz Górka on 20/12/2022.
+//  Created by Bartosz Górka on 31/01/2023.
 //
 
 import Foundation
-
-enum SpotifySectionType: Int {
-    case recent
-    case yourShows
-    case recentlyPlayed
-    case newEpisodes
-}
 
 struct SpotifyCollectionSection {
     let sectionType: SpotifySectionType
@@ -34,7 +27,7 @@ extension SpotifyCollectionSection {
                 ]
             ),
             SpotifyCollectionSection(
-                sectionType: .yourShows,
+                sectionType: .yourShows(HeaderModel(title: "Your shows")),
                 items: [
                     .show(ShowCellModel(title: "Huberman Lab", subtitle: "Show · Scicomm Media")),
                     .show(ShowCellModel(title: "Pure Tone", subtitle: "Show · Robertolozano")),
@@ -43,7 +36,7 @@ extension SpotifyCollectionSection {
                 ]
             ),
             SpotifyCollectionSection(
-                sectionType: .recentlyPlayed,
+                sectionType: .recentlyPlayed(HeaderModel(title: "Recently played")),
                 items: [
                     .recentlyPlayed(RecentlyPlayedCellModel(title: "Beach Club Lounge House")),
                     .recentlyPlayed(RecentlyPlayedCellModel(title: "Liked Songs")),
@@ -59,7 +52,7 @@ extension SpotifyCollectionSection {
                 ]
             ),
             SpotifyCollectionSection(
-                sectionType: .newEpisodes,
+                sectionType: .newEpisodes(HeaderModel(title: "New episodes")),
                 items: [
                     .newEpisodes(EpisodeCellModel(title: "Dr. Kyle Gillett: Tools for Hormone Optimization in Males | Episode 102", subtitle: "My guest is Kyle Gillett, MD, a lorem ipsum dolor ...", info: "Dec 12 · 2 hrs 24 mins")),
                     .newEpisodes(EpisodeCellModel(title: "AMA #2: Improve Sleep, Reduce Sugar Cravings, Optimal Protein Intake, Stretching Frequency & More", subtitle: "My guest is Kyle Gillett, MD, a lorem ipsum dolor ...", info: "Dec 8 · 31 mins")),

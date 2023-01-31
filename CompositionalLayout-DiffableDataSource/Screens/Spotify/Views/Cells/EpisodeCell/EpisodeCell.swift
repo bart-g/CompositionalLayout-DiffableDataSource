@@ -9,13 +9,13 @@ import UIKit
 
 final class EpisodeCell: UICollectionViewCell {
     
-    let horizontalStackView = UIStackView()
-    let verticalStackView = UIStackView()
-    let actionsStackView = UIStackView()
+    private let horizontalStackView = UIStackView()
+    private let verticalStackView = UIStackView()
+    private let actionsStackView = UIStackView()
 
-    let imageView = UIImageView()
-    let titleLabel = UILabel()
-    let subtitleLabel = UILabel()
+    private let imageView = UIImageView()
+    private let titleLabel = UILabel()
+    private let subtitleLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,8 +23,14 @@ final class EpisodeCell: UICollectionViewCell {
         setup()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(with model: EpisodeCellModel) {
+        titleLabel.text = model.title
+        subtitleLabel.text = model.subtitle
     }
 }
 

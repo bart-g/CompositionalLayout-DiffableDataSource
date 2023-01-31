@@ -9,8 +9,8 @@ import UIKit
 
 final class RecentCell: UICollectionViewCell {
     
-    let imageView = UIImageView()
-    let label = UILabel()
+    private let imageView = UIImageView()
+    private let label = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -18,8 +18,14 @@ final class RecentCell: UICollectionViewCell {
         setup()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(with model: RecentCellModel) {
+        label.text = model.title
+        imageView.image = model.image
     }
 }
 
@@ -34,7 +40,6 @@ private extension RecentCell {
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
         
-        imageView.image = UIImage(named: "music-album")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         label.translatesAutoresizingMaskIntoConstraints = false
         

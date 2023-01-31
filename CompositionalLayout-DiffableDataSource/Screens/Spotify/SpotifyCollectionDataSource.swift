@@ -7,25 +7,19 @@
 
 import UIKit
 
+typealias Snapshot = NSDiffableDataSourceSnapshot<SpotifySectionType, SpotifyItemType>
+
 final class SpotifyCollectionDataSource {
     
     private weak var collectionView: UICollectionView!
-    private lazy var dataSource = getDataSource()
+    private(set) lazy var dataSource = getDataSource()
     
     func use(collectionView: UICollectionView) {
-        var snapshot = NSDiffableDataSourceSnapshot<SpotifySectionType, SpotifyItemType>()
         self.collectionView = collectionView
         self.collectionView?.dataSource = dataSource
-        
-        let sections = SpotifyCollectionSection.sections
-        snapshot.appendSections(sections.map { $0.sectionType })
-        sections.forEach { section in
-            snapshot.appendItems(
-                section.items,
-                toSection: section.sectionType
-            )
-        }
-        
+    }
+    
+    func update(with snapshot: Snapshot) {
         dataSource.apply(snapshot)
     }
 }
@@ -42,7 +36,7 @@ private extension SpotifyCollectionDataSource {
                     for: indexPath
                 ) as! RecentCell
                 
-                cell.label.text = model.title
+                cell.configure(with: model)
                 
                 return cell
             case .show(let model):
@@ -51,8 +45,7 @@ private extension SpotifyCollectionDataSource {
                     for: indexPath
                 ) as! ShowCell
                 
-                cell.titleLabel.text = model.title
-                cell.subtitleLabel.text = model.subtitle
+                cell.configure(with: model)
                 
                 return cell
                 
@@ -61,8 +54,8 @@ private extension SpotifyCollectionDataSource {
                     withReuseIdentifier: RecentlyPlayedCell.identifier,
                     for: indexPath
                 ) as! RecentlyPlayedCell
-                
-                cell.titleLabel.text = model.title
+
+                cell.configure(with: model)
 
                 return cell
             case .newEpisodes(let model):
@@ -71,8 +64,7 @@ private extension SpotifyCollectionDataSource {
                     for: indexPath
                 ) as! EpisodeCell
                 
-                cell.titleLabel.text = model.title
-                cell.subtitleLabel.text = model.subtitle
+                cell.configure(with: model)
                 
                 return cell
             }
@@ -86,7 +78,6 @@ private extension SpotifyCollectionDataSource {
                     withReuseIdentifier: MainHeader.identifier,
                     for: indexPath
                 ) as! MainHeader
-                mainHeader.greetingLabel.text = "Good morning"
                 
                 return mainHeader
             case .headerWithButtons:
@@ -103,14 +94,14 @@ private extension SpotifyCollectionDataSource {
                     withReuseIdentifier: Header.identifier,
                     for: indexPath
                 ) as! Header
+                
+                let section = dataSource.snapshot().sectionIdentifiers[indexPath.section]
                                 
-                switch SpotifySectionType(rawValue: indexPath.section) {
-                case .yourShows:
-                    header.titleLabel.text = "Your shows"
-                case .recentlyPlayed:
-                    header.titleLabel.text = "Recently played"
-                case .newEpisodes:
-                    header.titleLabel.text = "New episodes"
+                switch section {
+                case .yourShows(let headerViewModel),
+                     .recentlyPlayed(let headerViewModel),
+                     .newEpisodes(let headerViewModel):
+                    header.titleLabel.text = headerViewModel.title
                 default:
                     fatalError("Not supported section")
                 }

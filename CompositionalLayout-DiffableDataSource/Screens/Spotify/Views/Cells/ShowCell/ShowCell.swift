@@ -9,10 +9,10 @@ import UIKit
 
 final class ShowCell: UICollectionViewCell {
     
-    let stackView = UIStackView()
-    let imageView = UIImageView()
-    let titleLabel = UILabel()
-    let subtitleLabel = UILabel()
+    private let stackView = UIStackView()
+    private let imageView = UIImageView()
+    private let titleLabel = UILabel()
+    private let subtitleLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -20,8 +20,14 @@ final class ShowCell: UICollectionViewCell {
         setup()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(with model: ShowCellModel) {
+        titleLabel.text = model.title
+        subtitleLabel.text = model.subtitle
     }
 }
 

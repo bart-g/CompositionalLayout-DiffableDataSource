@@ -9,10 +9,10 @@ import UIKit
 
 final class RecentlyPlayedCell: UICollectionViewCell {
     
-    let stackView = UIStackView()
-    let imageView = UIImageView()
-    let titleLabel = UILabel()
-    let subtitleLabel = UILabel()
+    private let stackView = UIStackView()
+    private let imageView = UIImageView()
+    private let titleLabel = UILabel()
+    private let subtitleLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -20,8 +20,13 @@ final class RecentlyPlayedCell: UICollectionViewCell {
         setup()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(with model: RecentlyPlayedCellModel) {
+        titleLabel.text = model.title
     }
 }
 
@@ -39,8 +44,6 @@ private extension RecentlyPlayedCell {
         titleLabel.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
         titleLabel.numberOfLines = 2
       
-
-        
         [
             imageView,
             titleLabel,

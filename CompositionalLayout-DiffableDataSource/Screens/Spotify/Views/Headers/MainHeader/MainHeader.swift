@@ -10,7 +10,7 @@ import UIKit
 final class MainHeader: UICollectionReusableView {
     
     private let buttonsStackView = UIStackView()
-    let greetingLabel = UILabel()
+    private let greetingLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -18,8 +18,13 @@ final class MainHeader: UICollectionReusableView {
         setup()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(with model: MainHeaderModel) {
+        
     }
 }
 

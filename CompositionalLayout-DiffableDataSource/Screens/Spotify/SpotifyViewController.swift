@@ -24,6 +24,14 @@ final class SpotifyViewController: UIViewController {
 
         setupCollectionView()
         dataSource.use(collectionView: collectionView)
+        
+        let snapshot = SnapshotBuilder().build(
+            from: SpotifyCollectionSection.sections
+        )
+        collectionView.collectionViewLayout = SpotifyCompositionalLayoutBuilder.build(
+            for: snapshot.sectionIdentifiers
+        )
+        dataSource.update(with: snapshot)
     }
 }
 
@@ -54,8 +62,6 @@ private extension SpotifyViewController {
                 equalTo: view.bottomAnchor
             ),
         ])
-        
-        collectionView.collectionViewLayout = SpotifyCompositionalLayoutBuilder.build()
     }
     
     func registerCells() {
@@ -90,4 +96,3 @@ private extension SpotifyViewController {
         }
     }
 }
-

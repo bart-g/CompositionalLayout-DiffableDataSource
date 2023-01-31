@@ -9,6 +9,6 @@ import UIKit
 
 struct RecentCellModel: Equatable, Hashable {
     let id = UUID()
-    let image = UIImage()
+    let image = UIImage(named: "music-album")
     let title: String
 }
