@@ -5,7 +5,7 @@
 //  Created by Bartosz Górka on 31/01/2023.
 //
 
-import Foundation
+import UIKit
 
 struct SpotifyCollectionSection {
     let sectionType: SpotifySectionType
@@ -16,7 +16,17 @@ extension SpotifyCollectionSection {
     static var sections: [SpotifyCollectionSection] {
         [
             SpotifyCollectionSection(
-                sectionType: .recent,
+                sectionType: .recent(
+                    MainHeaderModel(
+                        greeting: "Good Morning",
+                        buttons: [
+                            MainHeaderButtonModel(image: UIImage(named: "bell")!),
+                            MainHeaderButtonModel(image: UIImage(named: "wall-clock")!),
+                            MainHeaderButtonModel(image: UIImage(named: "settings")!),
+                        ]
+                    ),
+                    HeaderWithButtonsModel(buttonTitles: ["Music", "Podcast & Shows"])
+                ),
                 items: [
                     .recent(RecentCellModel(title: "Huberman Lab")),
                     .recent(RecentCellModel(title: "Liked songs")),

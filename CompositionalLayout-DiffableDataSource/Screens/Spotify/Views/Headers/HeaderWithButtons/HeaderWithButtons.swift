@@ -20,6 +20,18 @@ final class HeaderWithButtons: UICollectionReusableView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func configure(with model: HeaderWithButtonsModel) {
+        stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+
+        model.buttonTitles.forEach {
+            let buttonContainerView = getButtonContainerView(with: $0)
+            stackView.addArrangedSubview(buttonContainerView
+)
+        }
+        
+        stackView.addSubview(UIView())
+    }
 }
 
 private extension HeaderWithButtons {
@@ -44,39 +56,31 @@ private extension HeaderWithButtons {
                 constant: -10
             )
         ])
+    }
+    
+    func getButtonContainerView(with title: String) -> UIView {
+        let button = UIButton()
+        button.setTitle(title, for: [])
         
-        let musicButton = UIButton()
-        musicButton.setTitle("Music", for: [])
+        button.backgroundColor = .gray
+        button.titleLabel?.textColor = .white
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 10)
         
-        let podcastsAndShowsButton = UIButton()
-        podcastsAndShowsButton.setTitle("Podcasts & Shows", for: [])
+        let containerView = UIView()
+        containerView.layer.masksToBounds = true
+        containerView.layer.cornerRadius = 15
+        containerView.backgroundColor = .gray
         
-        [
-            musicButton,
-            podcastsAndShowsButton
-        ].forEach {
-            $0.backgroundColor = .gray
-            $0.titleLabel?.textColor = .white
-            $0.titleLabel?.font = UIFont.systemFont(ofSize: 10)
-            
-            let containerView = UIView()
-            containerView.layer.masksToBounds = true
-            containerView.layer.cornerRadius = 15
-            containerView.backgroundColor = .gray
-            
-            containerView.addSubview($0)
-            $0.pinToSuperView(
-                insets: UIEdgeInsets(
-                    top: 8,
-                    left: 10,
-                    bottom: -8,
-                    right: -10
-                )
+        containerView.addSubview(button)
+        button.pinToSuperView(
+            insets: UIEdgeInsets(
+                top: 8,
+                left: 10,
+                bottom: -8,
+                right: -10
             )
-
-            stackView.addArrangedSubview(containerView)
-        }
+        )
         
-        stackView.addSubview(UIView())
+        return containerView
     }
 }

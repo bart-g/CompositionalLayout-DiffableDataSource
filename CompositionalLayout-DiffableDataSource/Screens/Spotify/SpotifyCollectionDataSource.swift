@@ -70,7 +70,9 @@ private extension SpotifyCollectionDataSource {
             }
         }
         
-        dataSource.supplementaryViewProvider = { collectinoView, kind, indexPath in            
+        dataSource.supplementaryViewProvider = { collectinoView, kind, indexPath in
+            let section = dataSource.snapshot().sectionIdentifiers[indexPath.section]
+
             switch SpotifySupplementaryViewKind(rawValue: kind) {
             case .mainHeader:
                 let mainHeader = collectinoView.dequeueReusableSupplementaryView(
@@ -78,6 +80,13 @@ private extension SpotifyCollectionDataSource {
                     withReuseIdentifier: MainHeader.identifier,
                     for: indexPath
                 ) as! MainHeader
+                                                
+                switch section {
+                case .recent(let model, _):
+                    mainHeader.configure(with: model)
+                default:
+                    fatalError("Section not supported")
+                }
                 
                 return mainHeader
             case .headerWithButtons:
@@ -85,7 +94,14 @@ private extension SpotifyCollectionDataSource {
                     ofKind: kind,
                     withReuseIdentifier: HeaderWithButtons.identifier,
                     for: indexPath
-                )
+                ) as! HeaderWithButtons
+                                            
+                switch section {
+                case .recent(_, let model):
+                    headerWithButtons.configure(with: model)
+                default:
+                    fatalError("Section not supported")
+                }
                 
                 return headerWithButtons
             case .header:
@@ -94,16 +110,14 @@ private extension SpotifyCollectionDataSource {
                     withReuseIdentifier: Header.identifier,
                     for: indexPath
                 ) as! Header
-                
-                let section = dataSource.snapshot().sectionIdentifiers[indexPath.section]
-                                
+                                                
                 switch section {
                 case .yourShows(let headerViewModel),
                      .recentlyPlayed(let headerViewModel),
                      .newEpisodes(let headerViewModel):
                     header.titleLabel.text = headerViewModel.title
                 default:
-                    fatalError("Not supported section")
+                    fatalError("Section not supported")
                 }
                 
                 return header

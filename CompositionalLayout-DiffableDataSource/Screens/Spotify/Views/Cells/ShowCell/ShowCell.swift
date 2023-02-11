@@ -44,7 +44,10 @@ private extension ShowCell {
         imageView.layer.masksToBounds = true
         
         titleLabel.textColor = .white
-        titleLabel.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+        titleLabel.font = UIFont.systemFont(
+            ofSize: 12,
+            weight: .semibold
+        )
         
         subtitleLabel.textColor = .lightGray
         subtitleLabel.font = UIFont.systemFont(ofSize: 12)

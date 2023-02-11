@@ -7,6 +7,7 @@
 
 import Foundation
 
-struct MainHeaderModel {
+struct MainHeaderModel: Equatable, Hashable {
     let greeting: String
+    let buttons: [MainHeaderButtonModel]
 }

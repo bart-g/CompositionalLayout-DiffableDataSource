@@ -24,7 +24,13 @@ final class MainHeader: UICollectionReusableView {
     }
     
     func configure(with model: MainHeaderModel) {
+        greetingLabel.text = model.greeting
         
+        buttonsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        model.buttons.forEach {
+            let button = getButton(with: $0.image)
+            buttonsStackView.addArrangedSubview(button)
+        }
     }
 }
 
@@ -33,32 +39,7 @@ private extension MainHeader {
         backgroundColor = .clear
         buttonsStackView.spacing = 20
         buttonsStackView.distribution = .fill
-        let notificationsButton = UIButton()
-        notificationsButton.setImage(UIImage(named: "bell"), for: [])
-        notificationsButton.imageView?.tintColor = .white
-        let timeButton = UIButton()
-        timeButton.setImage(UIImage(named: "wall-clock"), for: [])
-        let settingsButton = UIButton()
-        settingsButton.setImage(UIImage(named: "settings"), for: [])
-        
-        [
-            notificationsButton,
-            timeButton,
-            settingsButton,
-        ].forEach {
-            buttonsStackView.addArrangedSubview($0)
-            NSLayoutConstraint.activate([
-                $0.heightAnchor.constraint(equalToConstant: 20),
-                $0.widthAnchor.constraint(equalToConstant: 20)
-            ])
-            $0.imageView?.tintColor = .white
-            $0.backgroundColor = .black
-            $0.titleLabel?.font = UIFont.systemFont(
-                ofSize: 12,
-                weight: .semibold
-            )
-        }
-        
+
         greetingLabel.textColor = .white
         greetingLabel.font = UIFont.systemFont(
             ofSize: 20,
@@ -93,5 +74,22 @@ private extension MainHeader {
                 equalTo: trailingAnchor
             ),
         ])
+    }
+    
+    func getButton(with image: UIImage) -> UIButton {
+        let button = UIButton()
+        button.setImage(image, for: [])
+        button.imageView?.tintColor = .white
+        NSLayoutConstraint.activate([
+            button.heightAnchor.constraint(equalToConstant: 20),
+            button.widthAnchor.constraint(equalToConstant: 20)
+        ])
+        button.backgroundColor = .black
+        button.titleLabel?.font = UIFont.systemFont(
+            ofSize: 12,
+            weight: .semibold
+        )
+        
+        return button
     }
 }
